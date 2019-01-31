@@ -1,11 +1,13 @@
 function BinaryTree(){
-		var Node = function(key){
+		//Node 二叉树
+		function Node (key){
 			this.key = key;
 			this.left = null;
 			this.right = null;
 		};
+		// 二叉树根节点
 		var root = null;
-		var insertNode = function(node,newNode){
+		function insertNode (node,newNode){
 			if(newNode.key<node.key){
 				if(node.left ===null){
 					node.left = newNode;
@@ -29,9 +31,8 @@ function BinaryTree(){
 			}
         };
 
-
         //中序遍历函数
-		var inOrderTraverseNode = function(node,callback){
+		function inOrderTraverseNode (node,callback){
 			if(node!==null){
 				inOrderTraverseNode(node.left,callback);
 				callback(node.key);
@@ -39,120 +40,39 @@ function BinaryTree(){
 			}
 		};
 		this.inOrderTraverse = function(callback){
-            console.log(root);
-             //中序遍历，原理从根节点先遍历左子树，按左中右的方式斤进行遍历i
+             //中序遍历，原理从根节点先遍历左子树，按左中右的方式进行遍历
+			console.log(root);
+			var starTime = new Date().getTime()
+			// console.log("开始",starTime);
 			inOrderTraverseNode(root,callback);
-        };
-        
-
-        //前序遍历
-		var preOrderTraverseNode = function(node,callback){
-			if(node!==null){
-				callback(node.key);
-				inOrderTraverseNode(node.left,callback);
-				inOrderTraverseNode(node.right,callback);
-			}
-		};
-		this.preOrderTraverse = function(callback){//前序遍历
-			preOrderTraverseNode(root,callback);
-        };
-        
-
-
-		var minNode = function(node){
-			if(node){
-				while(node && node.left !==null){ //node存在而且node的右孩子也存在就一直循环
-					node=node.left;
-				}
-				return node.key;
-			}
-		};
-		this.min = function(){
-			return minNode(root);
-		};
-		var maxNode = function(node){
-			if(node){
-				while(node && node.right !==null){
-					node=node.right;
-				}
-				return node.key;
-			}
-		};
-		this.max = function(){
-			return maxNode(root);
-		};
-		var serachNode = function(node,key){//查找二叉树中是否存在指定节点，存在返回True,否则返回false;
-			if(node === null){
-				return false;
-			}
-			if(key<node.key){
-				return serachNode(node.left,key);
-			} else if(key>node.key){
-				return serachNode(node.right,key);
-			} else{
-				return true;
-			}
-		};
-		this.serach = function(key){
-			if(serachNode(root,key)){
-				return true;
-			}else{
-				return false;
-			}
-		};
-		var removeNode = function(node,key){
-			if(node===null){
-				return null;
-			}
-			if(key<node.key){	//先通过两个判断语句找到要删除的节点。
-				node.left = removeNode(node.left,key);
-				return node;
-			}else if(key>node.key){
-				node.right = removeNode(node.right,key);
-				return node;
-			}else {
-				if(node.left ==null&&node.right==null){//判断为叶子节点，既没有左孩子也没有右孩子。
-					node==null;
-					return node;
-				}
-				if(node.left==null){//只有右孩子
-					node = node.right;
-					return node;
-				}else if(node.right==null){//只有左孩子
-					node = node.left;
-				}
-				//如果以上条件都不符合，即又存在左孩子，也存在右孩子。
-				var aux = findMinNode(node.right);
-				node.key = aux.key;
-				node.right = removeNode(node.right,aux.key);
-				return node;
-			}
-		};
-		this.remove = function(key){
-			root = removeNode(root,key);
-		}
-		var findMinNode = function(node){//用于第三种情况找到右子树的最小节点。
-			if(node){
-				while(node&&node.left!==null){
-					node = node.left;
-				}
-				return node;
-			}
-			return null;
-		};
+			var endTime = new Date().getTime()
+			// console.log("结束",endTime);
+        };  
 	}
- 
-	var nodes = [8,3,10,1,6,14,4,7,13];
+function test() {
+	var nodes = [];
+	var list = []
+	function random (index,e) {
+		for (let i = 0; i < index; i++) {
+			nodes.push(Math.floor(Math.random()*e))
+		}
+	}
+	random(20000,2000000);
 	var binaryTree = new BinaryTree();
 	nodes.forEach(function(key){
 		binaryTree.insert(key);
 	}); 
-	
-	var callback = function(key){
-		console.log(key);
+		
+	function callback(key){
+		list.push(key);
 	}
 	binaryTree.inOrderTraverse(callback);
-	console.log("min node is :"+binaryTree.min());
-	console.log("min node is :"+binaryTree.max());
-	console.log(binaryTree.serach(7)?'key 7 is found':'key 7 is not found');
-	console.log(binaryTree.serach(9)?'key 9 is found':'key 9 is not found');
+//console.log('原始数组',nodes);
+	//console.log('排序后数组',list);
+}	
+var star = new Date().getTime();
+console.log("开始",star);
+test()
+var end = new Date().getTime();
+console.log("结束",end);
+console.log(end-star);
