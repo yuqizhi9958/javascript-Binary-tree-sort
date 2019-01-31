@@ -1,4 +1,5 @@
-function BinaryTree(){
+var tests = function () {
+	function BinaryTree(){
 		//Node 二叉树
 		function Node (key){
 			this.key = key;
@@ -14,12 +15,15 @@ function BinaryTree(){
 				}else{
 					insertNode(node.left,newNode)
 				}
-			}else{
+				return
+			}
+			if(newNode.key>=node.key){
 				if(node.right ===null){
 					node.right = newNode;
 				}else{
 					insertNode(node.right,newNode);
 				}
+				return
 			}
 		};
 		this.insert = function(key){
@@ -41,12 +45,8 @@ function BinaryTree(){
 		};
 		this.inOrderTraverse = function(callback){
              //中序遍历，原理从根节点先遍历左子树，按左中右的方式进行遍历
-			console.log(root);
-			var starTime = new Date().getTime()
-			// console.log("开始",starTime);
 			inOrderTraverseNode(root,callback);
-			var endTime = new Date().getTime()
-			// console.log("结束",endTime);
+		
         };  
 	}
 function test() {
@@ -57,7 +57,7 @@ function test() {
 			nodes.push(Math.floor(Math.random()*e))
 		}
 	}
-	random(20000,2000000);
+	random(10000,100000);
 	var binaryTree = new BinaryTree();
 	nodes.forEach(function(key){
 		binaryTree.insert(key);
@@ -67,12 +67,29 @@ function test() {
 		list.push(key);
 	}
 	binaryTree.inOrderTraverse(callback);
-//console.log('原始数组',nodes);
-	//console.log('排序后数组',list);
+	//console.log('原始数组',nodes);
+	// console.log('排序后数组',list);
 }	
-var star = new Date().getTime();
-console.log("开始",star);
 test()
+}
+function testt(){
+    for (let i = 0; i < 1000; i++) {
+        // console.log(i);
+        tests()
+    }
+}
+var star = new Date().getTime();
+// console.log("开始",star);
+testt()
 var end = new Date().getTime();
-console.log("结束",end);
-console.log(end-star);
+// console.log("结束",end);
+console.log((end-star)/1000);
+// var star = new Date().getTime();
+// console.log("开始",star);
+// tests()
+// var end = new Date().getTime();
+// console.log("结束",end);
+// console.log(end-star);
+
+
+// module.exports.tests=tests() ;
